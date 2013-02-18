@@ -25,7 +25,7 @@ class PagesController < ApplicationController
   end
 
   def scrape(page)
-    if (obj = OpenGraph.fetch(@page.url, false))
+    if (obj = OpenGraph.fetch(@page.url, false, true))
       logger.debug('Fetch ' + @page.url + ': ' + obj.to_yaml);
       @page.title = obj.title if obj.title;
       @page.description = obj.description if obj.description;
@@ -36,11 +36,8 @@ class PagesController < ApplicationController
   # GET /url
   def show_url
     @url = params[:protocol] + "://" + params[:url];
-    unless @page = Page.find_by_url(@url)
-      @page = Page.new(:url => @url)
-    end
-    scrape @page
-    if ((@page.new_record? || @page.updated_at < 1.hour.ago))
+    @page = Page.new(:url => @url) unless @page = Page.find_by_url(@url) || @page = Page.find_by_url(@url + '/')
+    if (@page.new_record? || @page.updated_at < 1.hour.ago)
       scrape @page
       @page.touch
       @page.save

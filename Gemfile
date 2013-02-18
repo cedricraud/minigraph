@@ -27,7 +27,8 @@ gem 'ember-rails'
 # Use Think instead of Webbrick. Fix the "Could not determine content-length" warning
 gem 'thin'
 
-gem 'opengraph'
+# Use fork with title & description inference
+gem 'opengraph' , :git => "git://github.com/cedricraud/opengraph.git"
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'

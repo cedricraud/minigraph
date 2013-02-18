@@ -1,3 +1,4 @@
+//= require ./lib/URI
 //= require_tree ./templates
 
 App = Ember.Application.create();
@@ -41,22 +42,10 @@ App.pagesController = Em.ArrayProxy.create({
   add: function(url) {
     var self = this;
     $.ajax({
-      type: 'POST',
-      url: '/',
+      url: '/' + url,
       dataType: 'json',
-      data: { page: {url: url} },
-      error: function(){
-        alert('Invalid url');
-      },
       success: function(response){
-        console.log(response);
-        $.ajax({
-          url: '/' + url,
-          dataType: 'json',
-          success: function(response){
-              self.unshiftObject(App.Page.create(response));
-          }
-        });
+          self.unshiftObject(App.Page.create(response));
       }
     });
   }
@@ -80,5 +69,6 @@ App.PagesView = Ember.View.create({
 });
 
 // Init
+$.ajaxSetup({cache: false}); // Fixes the cache issue with back button
 App.pagesController.load();
 App.PagesView.appendTo('#pages');
