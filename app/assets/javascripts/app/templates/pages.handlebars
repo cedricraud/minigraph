@@ -1,0 +1,24 @@
+Add a page: {{view App.AddPageView id="new-page" size="40" placeholder="e.g. http://www.google.com"}}
+<hr>
+<table>
+{{#each page in App.pagesController}}
+  <tr>
+    <td><img {{bindAttr src="page.thumbnail"}} /></td>
+    <td>
+      <a target="blank" {{bindAttr href="page.url"}}>
+        {{#if page.title}}
+          {{page.title}}
+        {{else}}
+          {{page.url}}
+        {{/if}}
+      </a>
+      <br>
+      {{#if page.description}}
+        {{page.description}}
+      {{/if}}
+      <a class="action" {{bindAttr href="page.link"}}>→</a>
+    </td>
+    <td><a class="action" href="#" {{action destroyPage page target="view"}}>X</a></td>
+  </tr>
+{{/each}}
+</table>

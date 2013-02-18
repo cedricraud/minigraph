@@ -1,0 +1,14 @@
+<table>
+<% if @pages.any? %>
+  <% @pages.each do |page| %>
+    <tr>
+      <td><img src="<%= page.thumbnail %>" /></td>
+      <td><%= link_to page.title, "/" + page.url %><br>
+        <%= "« #{page.description} »" unless page.description.blank? %></td>
+      <td><%= link_to 'X', page, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+    </tr>
+  <% end %>
+<% else %>
+  <i>Enter an url to start browsing the Open Graph.</i>
+<% end %>
+</table>

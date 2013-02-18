@@ -1,0 +1,32 @@
+// Place all the styles related to the Pages controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+img {
+	max-width: 32px;
+	max-height: 32px;
+}
+
+td {
+	padding: 4px;
+	min-height: 44px;
+	vertical-align: top;
+}
+
+td:first-child {
+	text-align: center;
+}
+
+#box {
+	width: 600px;
+	margin: 50px auto;
+	text-align: left;
+	background-color: #FEFDFB;
+	padding: 10px;
+	border-radius: 6px;
+	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.action {
+	text-decoration: none;
+}
