@@ -26,16 +26,19 @@ class PagesController < ApplicationController
 
   def scrape(page)
     if (obj = OpenGraph.fetch(@page.url, false, true))
-      logger.debug('Fetch ' + @page.url + ': ' + obj.to_yaml);
-      @page.title = obj.title if obj.title;
-      @page.description = obj.description if obj.description;
-      @page.thumbnail = obj.image if obj.image;
+      logger.debug('Fetch ' + @page.url + ': ' + obj.to_yaml)
+      @page.title = obj.title if obj.title
+      @page.description = obj.description if obj.description
+      @page.thumbnail = obj.image if obj.image
     end
   end
 
   # GET /url
   def show_url
-    @url = params[:protocol] + "://" + params[:url];
+    query =  Rack::Utils.parse_nested_query(request.query_string)
+    query.delete('format')
+    @url = params[:protocol] + "://" + params[:url] + (query.empty? ? '' : '?') + query.to_query
+    logger.debug("url: " + @url)
     @page = Page.new(:url => @url) unless @page = Page.find_by_url(@url) || @page = Page.find_by_url(@url + '/')
     if (@page.new_record? || @page.updated_at < 1.hour.ago)
       scrape @page
